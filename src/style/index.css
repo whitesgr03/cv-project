@@ -125,3 +125,94 @@ body {
 	margin: 10px 0;
 	font-style: italic;
 }
+
+.editForm > div:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+.editForm > div > h3 {
+	margin-bottom: 20px;
+}
+
+.editForm > div .details {
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 20px;
+	row-gap: 20px;
+}
+
+.editForm > div .details div {
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+	flex: 1 1 45%;
+}
+.editForm > div .details div input {
+	width: 100%;
+}
+
+.editForm > div label {
+	flex: 1 1 45%;
+	display: flex;
+	flex-direction: column;
+}
+
+.editForm > div .details input,
+.editForm > div textarea {
+	margin: 5px 0;
+	padding: 10px 15px;
+	background-color: var(--input-bgc);
+	border-radius: 10px;
+}
+
+.editForm > div li {
+	margin-top: 20px;
+	list-style-type: none;
+}
+
+.editForm .employment > div,
+.editForm .education > div {
+	border: 1px solid var(--main-dark);
+	padding: 10px;
+	border-radius: 10px;
+	border-color: var(--input-border);
+	margin-bottom: 10px;
+}
+
+.editForm .employment > div:not(:last-of-type),
+.editForm .education > div:not(:last-of-type) {
+	margin-bottom: 20px;
+}
+
+.editForm .employment > button,
+.editForm .education > button {
+	width: 100%;
+	text-align: left;
+	padding: 10px;
+	color: var(--button-color);
+	border-radius: 10px;
+	transition: background-color ease 0.3s;
+}
+
+.editForm .employment > button:hover,
+.editForm .education > button:hover {
+	background-color: var(--button-bgc);
+}
+
+.editForm .employment > div > button,
+.editForm .education > div > button {
+	width: 100%;
+	text-align: left;
+	padding: 10px;
+	margin: 5px 0;
+	transition: color ease 0.3s;
+}
+
+.editForm .employment > div > button:hover,
+.editForm .education > div > button:hover {
+	color: var(--button-color);
+}
+
+.editForm .skills textarea {
+	width: 100%;
+}
