@@ -45,12 +45,13 @@ h3 {
     color: var(--main-dark);
 } */
 
-/* button {
-    border: 0;
-    outline: none;
-    padding: 0;
-    background-color: transparent;
-} */
+button {
+	border: 0;
+	outline: none;
+	padding: 0;
+	background-color: transparent;
+	cursor: pointer;
+}
 
 ul,
 li {
