@@ -77,51 +77,51 @@ body {
 	overflow: scroll;
 }
 
-h3 {
-	margin-top: 20px;
-	border-bottom: 1px solid var(--main-dark);
-	font-weight: bolder;
-	font-size: 1.2rem;
+.template div:not(:last-child) {
+	margin-bottom: 20px;
 }
 
-li:not(.about li) {
+.template div:not(:nth-of-type(1)) li {
 	margin: 5px 0;
 	margin-left: 20px;
 }
 
-.about ul {
+.template > div:nth-of-type(1) ul {
 	display: flex;
+	flex-wrap: wrap;
 	column-gap: 10px;
 	list-style: none;
 	border-bottom: 1px solid var(--main-dark);
 	font-size: 1.5rem;
 }
 
-.experience > :nth-child(1),
-.education > :nth-child(1),
-.skills > :nth-child(1) {
-	margin: 20px 0;
-	border-bottom: 1px solid var(--main-dark);
+.template > div > :nth-child(1) {
+	margin-bottom: 20px;
 	font-weight: bolder;
 }
 
-.company,
-.education > div {
+.template > div > p:nth-of-type(1) {
+	border-bottom: 1px solid var(--main-dark);
+}
+
+.template .experience > div,
+.template .education > div {
 	margin: 20px 0;
 }
 
-.company > p {
+.template .experience > div > p,
+.template .education > div > p {
 	display: flex;
 	justify-content: space-between;
 }
 
-.company > p:nth-of-type(1),
-.education div > p:nth-of-type(1) {
+.template .experience > div > p:nth-of-type(1),
+.template .education > div > p:nth-of-type(1) {
 	font-weight: bolder;
 }
 
-.company > p:nth-of-type(2),
-.education div > p:nth-of-type(2) {
+.template .experience > div > p:nth-of-type(2),
+.template .education > div > p:nth-of-type(2) {
 	margin: 10px 0;
 	font-style: italic;
 }
