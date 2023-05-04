@@ -44,5 +44,19 @@ const initialData = {
 	skills: "Important skills or abilities required to fulfill the task role.",
 };
 
+const App = () => {
+	const [formData, setFormData] = useState(initialData);
+
+	const edit = newData => {
+		setFormData(newData);
+	};
+
+	return (
+		<div>
+			<EditForm formData={formData} onEdit={edit} />
+			<Template formData={formData} />
+		</div>
+	);
+};
 
 export default App;
