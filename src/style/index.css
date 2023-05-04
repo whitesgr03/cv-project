@@ -62,15 +62,19 @@ body {
 	overflow: hidden;
 }
 
-#root {
-	margin: 50px 0;
-	padding: 25px;
-	border: 1px solid var(--main-dark);
+#root > div {
+	display: flex;
+	column-gap: 20px;
+	padding: 20px;
+	height: 100vh;
 }
 
-h1 {
-	margin-bottom: 10px;
-	font-weight: bolder;
+#root > div > div {
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid var(--main-dark);
+	flex: 1 1 50%;
+	overflow: scroll;
 }
 
 h3 {
