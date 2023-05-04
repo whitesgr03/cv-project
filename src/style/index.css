@@ -6,6 +6,10 @@
 
 :root {
 	--main-dark: #000;
+	--input-bgc: #eff2f8;
+	--input-border: #e7eaf4;
+	--button-bgc: #eff2f8;
+	--button-color: #1b91f0;
 }
 
 * {
