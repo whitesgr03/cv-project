@@ -1,5 +1,4 @@
-import Template from "./components/template";
-import EditForm from "./components/editForm";
+import { useState } from "react";
 
 const initialData = {
 	personal: {
