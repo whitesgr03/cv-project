@@ -1,47 +1,68 @@
 import { useState } from "react";
 
-const initialData = {
-	personal: {
-		firstName: "Your",
-		lastName: "Name",
-		email: "example@gmail.com",
-		phone: "(555) 555-5555",
-		city: "City",
-		state: "ST",
+const initialData = [
+	{
+		id: 1,
+		type: "personal",
+		data: {
+			firstName: "Your",
+			lastName: "Name",
+			email: "example@gmail.com",
+			phone: "(555) 555-5555",
+			city: "City",
+			state: "ST",
+		},
 	},
-	employment: [
-		{
-			id: null,
-			jobTitle: "Job Title",
-			employer: "Company Name",
-			startDate: "Month Year",
-			endDate: "Month Year",
-			city: "City",
-			state: "ST",
-			describe: [
-				{ id: null, text: "Core responsibility #1" },
-				{ id: null, text: "Core responsibility #2" },
-				{ id: null, text: "Core responsibility #3" },
-			],
-		},
-	],
-	education: [
-		{
-			id: null,
-			school: "University Name",
-			degreeMajors: "Degree, Majors",
-			graduation: "Month, Year",
-			city: "City",
-			state: "ST",
-			describe: [
-				{ id: null, text: "Honors or fun stuff #1" },
-				{ id: null, text: "Honors or fun stuff #2" },
-				{ id: null, text: "Honors or fun stuff #3" },
-			],
-		},
-	],
-	skills: "Important skills or abilities required to fulfill the task role.",
-};
+	{
+		id: 2,
+		type: "employment",
+		data: [
+			{
+				id: 1,
+				jobTitle: "Job Title",
+				employer: "Company Name",
+				startDate: "Month Year",
+				endDate: "Month Year",
+				city: "City",
+				state: "ST",
+				describes: [
+					{ id: 1, text: "Core responsibility #1" },
+					{ id: 2, text: "Core responsibility #2" },
+				],
+			},
+			{
+				id: 2,
+				jobTitle: "Job Title",
+				employer: "Company Name",
+				startDate: "Month Year",
+				endDate: "Month Year",
+				city: "City",
+				state: "ST",
+				describes: [{ id: 1, text: "Core responsibility #1" }],
+			},
+		],
+	},
+	{
+		id: 3,
+		type: "education",
+		data: [
+			{
+				id: 1,
+				school: "University Name",
+				degreeMajors: "Degree, Majors",
+				graduationDate: "Month, Year",
+				city: "City",
+				state: "ST",
+				describes: [{ id: 1, text: "Honors or fun stuff #1" }],
+			},
+		],
+	},
+	{
+		id: 4,
+		type: "skills",
+		data: "Important skills or abilities required to fulfill the task role.",
+	},
+];
 
 const App = () => {
 	const [formData, setFormData] = useState(initialData);
