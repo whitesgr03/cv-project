@@ -65,10 +65,10 @@ const initialData = [
 ];
 
 const App = () => {
-	const [formData, setFormData] = useState(initialData);
+	const [state, setState] = useState(initialData);
 
 	const edit = newData => {
-		setFormData(newData);
+		setState(newData);
 	};
 
 	return (
