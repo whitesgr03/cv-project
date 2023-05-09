@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import Preview from "./components/preview";
 const initialData = [
 	{
 		id: 1,
