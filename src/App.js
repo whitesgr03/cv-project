@@ -73,6 +73,12 @@ const defaultTemplate = {
 		describes: [{ id: 1, text: "Honors or fun stuff" }],
 	},
 };
+
+const defaultDescribe = {
+	employment: "Core responsibility",
+	education: "Honors or fun stuff",
+};
+
 const App = () => {
 	const [state, setState] = useState(initialData);
 
