@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import Preview from "./components/preview";
+import Resume from "./components/resume";
+
 const initialData = [
 	{
 		id: 1,
