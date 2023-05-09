@@ -81,6 +81,39 @@ const App = () => {
 			state.map(item => (item.type === type ? { ...item, data } : item))
 		);
 	};
+	const addForm = type => {
+		setState(
+			state.map(item =>
+				item.type === type
+					? {
+							...item,
+							data: [
+								...item.data,
+								{
+									id:
+										item.data.length > 0
+											? item.data.at(-1).id + 1
+											: 1,
+									...defaultTemplate[type],
+								},
+							],
+					  }
+					: item
+			)
+		);
+	};
+
+	const removeForm = (type, id) => {
+		setState(
+			state.map(item =>
+				item.type === type
+					? {
+							...item,
+							data: item.data.filter(data => data.id !== id),
+					  }
+					: item
+			)
+		);
 	};
 
 	return (
@@ -88,6 +121,8 @@ const App = () => {
 			<Resume
 				state={state}
 				onEdit={editInput}
+				onRemoveDescribe={removeDescribe}
+				onRemoveForm={removeForm}
 			/>
 			<Preview state={state} />
 		</div>
