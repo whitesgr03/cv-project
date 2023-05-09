@@ -57,14 +57,18 @@ const initialData = [
 const App = () => {
 	const [state, setState] = useState(initialData);
 
-	const edit = newData => {
-		setState(newData);
+	const editInput = ({ type, data }) => {
+		setState(
+			state.map(item => (item.type === type ? { ...item, data } : item))
+		);
+	};
 	};
 
 	return (
 		<div>
 			<Resume
 				state={state}
+				onEdit={editInput}
 			/>
 			<Preview state={state} />
 		</div>
