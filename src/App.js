@@ -63,8 +63,10 @@ const App = () => {
 
 	return (
 		<div>
-			<EditForm formData={formData} onEdit={edit} />
-			<Template formData={formData} />
+			<Resume
+				state={state}
+			/>
+			<Preview state={state} />
 		</div>
 	);
 };
