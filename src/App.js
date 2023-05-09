@@ -54,6 +54,25 @@ const initialData = [
 	},
 ];
 
+const defaultTemplate = {
+	employment: {
+		jobTitle: "Job Title",
+		employer: "Company Name",
+		startDate: "Month Year",
+		endDate: "Month Year",
+		city: "City",
+		state: "ST",
+		describes: [{ id: 1, text: "Core responsibility" }],
+	},
+	education: {
+		school: "University Name",
+		degreeMajors: "Degree, Majors",
+		graduationDate: "Month, Year",
+		city: "City",
+		state: "ST",
+		describes: [{ id: 1, text: "Honors or fun stuff" }],
+	},
+};
 const App = () => {
 	const [state, setState] = useState(initialData);
 
