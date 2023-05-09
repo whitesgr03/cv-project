@@ -87,6 +87,62 @@ const App = () => {
 			state.map(item => (item.type === type ? { ...item, data } : item))
 		);
 	};
+
+	const addDescribe = (type, id) => {
+		setState(
+			state.map(item =>
+				item.type === type
+					? {
+							...item,
+							data: item.data.map(data =>
+								data.id === id
+									? {
+											...data,
+											describes: [
+												...data.describes,
+												{
+													id:
+														data.describes.length >
+														0
+															? data.describes.at(
+																	-1
+															  ).id + 1
+															: 1,
+													text: defaultDescribe[type],
+												},
+											],
+									  }
+									: data
+							),
+					  }
+					: item
+			)
+		);
+	};
+
+	const removeDescribe = (type, id, describeId) => {
+		setState(
+			state.map(item =>
+				item.type === type
+					? {
+							...item,
+							data: item.data.map(data =>
+								data.id === id
+									? {
+											...data,
+											describes: data.describes.filter(
+												describe =>
+													describe.id !== describeId
+											),
+									  }
+									: data
+							),
+					  }
+					: item
+			)
+		);
+	};
+
 	const addForm = type => {
 		setState(
 			state.map(item =>
@@ -127,6 +183,8 @@ const App = () => {
 			<Resume
 				state={state}
 				onEdit={editInput}
+				onAddForm={addForm}
+				onAddDescribe={addDescribe}
 				onRemoveDescribe={removeDescribe}
 				onRemoveForm={removeForm}
 			/>
