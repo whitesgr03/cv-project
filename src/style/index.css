@@ -71,6 +71,10 @@ body {
 	overflow: scroll;
 }
 
+.preview {
+	overflow-wrap: break-word;
+}
+
 .preview div:not(:last-child) {
 	margin-bottom: 20px;
 }
@@ -135,6 +139,23 @@ body {
 	row-gap: 20px;
 }
 
+.resume > div .detailsWarp {
+	overflow: hidden;
+	transition: max-height 0.3s ease-in-out;
+}
+
+.resume > div .detailsWarp.hiding {
+	max-height: 0px !important;
+}
+
+.resume form {
+	position: relative;
+}
+
+.resume form.pointer {
+	cursor: pointer;
+}
+
 .resume form label {
 	flex: 1 1 45%;
 	display: flex;
@@ -144,11 +165,63 @@ body {
 	width: 100%;
 }
 
+.resume form .bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.resume form .bar p {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.1s ease;
+}
+
+.resume form .bar p.show {
+	opacity: 1;
+	visibility: visible;
+	transition: all 0.5s ease-in;
+}
+
+.resume form .bar button.trashCan {
+	opacity: 0;
+	transition: opacity 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.resume form:hover .bar button.trashCan {
+	opacity: 1;
+}
+
+.resume form .bar button.trashCan:active {
+	transform: scale(0.85);
+}
+
+.resume form:hover .bar div:last-of-type:hover button.trashCan {
+	opacity: 0;
+}
+
+.resume form:hover .bar div:last-of-type button.trashCan:hover {
+	opacity: 1;
+}
+
 .resume div.details > div {
 	flex: 1 1 100%;
 	display: flex;
 	row-gap: 20px;
 	flex-direction: column;
+}
+
+.resume div.details > div button.trashCan {
+	opacity: 0;
+	transition: opacity 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.resume div.details > div:hover button.trashCan {
+	opacity: 1;
+}
+
+.resume div.details > div button.trashCan:active {
+	transform: scale(0.85);
 }
 
 .resume > div label input,
@@ -178,14 +251,28 @@ body {
 	margin-bottom: 20px;
 }
 
+.resume .employment .details > div > button,
+.resume .education .details > div > button {
+	width: 100%;
+	text-align: left;
+	padding: 10px;
+	transition: color 0.3s ease;
+}
+
+.resume .employment .details > div > button:hover,
+.resume .education .details > div > button:hover {
+	color: var(--button-color);
+}
+
 .resume .employment > button,
 .resume .education > button {
+	border-radius: 10px;
 	width: 100%;
 	text-align: left;
 	padding: 10px;
 	color: var(--button-color);
-	border-radius: 10px;
-	transition: background-color ease 0.3s;
+	margin: 10px 0;
+	transition: background-color 0.3s ease;
 }
 
 .resume .employment > button:hover,
@@ -193,20 +280,11 @@ body {
 	background-color: var(--button-bgc);
 }
 
-.resume .employment > form > button,
-.resume .education > form > button {
-	width: 100%;
-	text-align: left;
-	padding: 10px;
-	margin: 5px 0;
-	transition: color ease 0.3s;
-}
-
-.resume .employment > form > button:hover,
-.resume .education > form > button:hover {
-	color: var(--button-color);
-}
-
 .resume .skills textarea {
 	width: 100%;
+}
+
+.resume svg.icon {
+	vertical-align: middle;
+	width: 1.5rem;
 }
