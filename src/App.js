@@ -40,7 +40,7 @@ const initialData = [
 				graduationDate: "Month, Year",
 				city: "City",
 				state: "ST",
-				describes: [{ id: 1, text: "Honors or fun stuff #1" }],
+				describes: [{ id: 1, text: "Honors or fun stuff" }],
 			},
 		],
 	},
