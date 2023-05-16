@@ -73,38 +73,22 @@ const initialData = {
 	},
 };
 
-const defaultTemplate = {
-	employment: {
-		jobTitle: "Job Title",
-		employer: "Company Name",
-		startDate: "Month Year",
-		endDate: "Month Year",
-		city: "City",
-		state: "ST",
-		describes: [{ id: 1, text: "Core responsibility" }],
-	},
-	education: {
-		school: "University Name",
-		degreeMajors: "Degree, Majors",
-		graduationDate: "Month, Year",
-		city: "City",
-		state: "ST",
-		describes: [{ id: 1, text: "Honors or fun stuff" }],
-	},
-};
-
-const defaultDescribe = {
-	employment: "Core responsibility",
-	education: "Honors or fun stuff",
-};
-
 const App = () => {
 	const [state, setState] = useState(initialData);
 
-	const editInput = ({ type, data }) => {
-		setState(
-			state.map(item => (item.type === type ? { ...item, data } : item))
-		);
+	const handleDataChange = (type, name, value) => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				data: {
+					...state[type].data,
+					[name]: value,
+				},
+			},
+		});
+	};
+	
 	};
 
 	const addDescribe = (type, id) => {
