@@ -19,81 +19,25 @@ const getValue = value => {
 
 const Resume = ({
 	state,
-	onEdit,
-	onAddForm,
-	onAddDescribe,
+
+
+	
 	onRemoveDescribe,
-	onRemoveForm,
 }) => {
 	return (
 		<div className="resume">
-			{state.map(item => (
-				<Form
-					state={item}
-					key={item.id}
-					handleEdit={onEdit}
-					handleAddForm={onAddForm}
-					handleAddDescribe={onAddDescribe}
-					handleRemoveDescribe={onRemoveDescribe}
-					handleRemoveForm={onRemoveForm}
-				/>
-			))}
-		</div>
-	);
-};
-
-const Form = ({
-	state,
-	handleEdit,
-	handleAddForm,
-	handleAddDescribe,
-	handleRemoveDescribe,
-	handleRemoveForm,
-}) => {
-	switch (state.type) {
-		case "personal":
-			return <Personal state={state} handleEdit={handleEdit} />;
-		case "employment":
-			return (
-				<Employment
-					state={state}
-					handleEdit={handleEdit}
-					handleAddForm={handleAddForm}
-					handleAddDescribe={handleAddDescribe}
-					handleRemoveDescribe={handleRemoveDescribe}
-					handleRemoveForm={handleRemoveForm}
-				/>
-			);
-		case "education":
-			return (
-				<Education
-					state={state}
-					handleEdit={handleEdit}
-					handleAddForm={handleAddForm}
-					handleAddDescribe={handleAddDescribe}
-					handleRemoveDescribe={handleRemoveDescribe}
-					handleRemoveForm={handleRemoveForm}
-				/>
-			);
-		case "skills":
-			return <Skills state={state} handleEdit={handleEdit} />;
-	}
-};
-
-const Personal = ({ state, handleEdit }) => {
-	return (
-		<div className={state.type}>
-			<h3>Personal Details</h3>
-			<form className="details" name={state.type}>
-				{Object.keys(state.data).map(key => (
-					<TextInput
-						state={state}
-						item={key}
-						key={key}
-						handleEdit={handleEdit}
-					/>
-				))}
-			</form>
+			<Personal
+				personal={state.personal}
+			/>
+			<Employment
+				employment={state.employment}
+			/>
+			<Education
+				education={state.education}
+			/>
+			<Skills
+				skills={state.skills}
+			/>
 		</div>
 	);
 };
