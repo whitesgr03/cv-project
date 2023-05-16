@@ -144,27 +144,14 @@ const App = () => {
 		});
 	};
 
-	const removeDescribe = (type, id, describeId) => {
-		setState(
-			state.map(item =>
-				item.type === type
-					? {
-							...item,
-							data: item.data.map(data =>
-								data.id === id
-									? {
-											...data,
-											describes: data.describes.filter(
-												describe =>
-													describe.id !== describeId
-											),
-									  }
-									: data
-							),
-					  }
-					: item
-			)
-		);
+	const onRemoveForm = (type, id) => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				dataList: state[type].dataList.filter(data => data.id !== id),
+			},
+		});
 	};
 
 	const addForm = type => {
