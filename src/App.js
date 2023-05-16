@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Preview from "./components/preview";
-import Resume from "./components/resume";
+import Preview from "./components/Preview";
+import Resume from "./components/Resume";
 
 const initialData = {
 	personal: {
