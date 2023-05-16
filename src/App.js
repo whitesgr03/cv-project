@@ -154,26 +154,30 @@ const App = () => {
 		});
 	};
 
-	const addForm = type => {
-		setState(
-			state.map(item =>
-				item.type === type
-					? {
-							...item,
-							data: [
-								...item.data,
-								{
-									id:
-										item.data.length > 0
-											? item.data.at(-1).id + 1
-											: 1,
-									...defaultTemplate[type],
-								},
-							],
-					  }
-					: item
-			)
-		);
+	const onAddNewDescribe = (type, id) => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				dataList: state[type].dataList.map(data =>
+					data.id === id
+						? {
+								...data,
+								describes: [
+									...data.describes,
+									{
+										id:
+											data.describes.length === 0
+												? 1
+												: data.describes.at(-1).id + 1,
+										text: state[type].dataDescribe,
+									},
+								],
+						  }
+						: data
+				),
+			},
+		});
 	};
 
 	const removeForm = (type, id) => {
