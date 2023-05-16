@@ -89,6 +89,16 @@ const App = () => {
 		});
 	};
 	
+	const handleDataListChange = (type, id, name, value) => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				dataList: state[type].dataList.map(data =>
+					data.id === id ? { ...data, [name]: value } : data
+				),
+			},
+		});
 	};
 
 	const addDescribe = (type, id) => {
