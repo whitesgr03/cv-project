@@ -1,4 +1,4 @@
-.resume > div:not(:last-child) {
+.resume > div:not(.skills) {
 	margin-bottom: 20px;
 }
 
