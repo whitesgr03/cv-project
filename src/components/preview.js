@@ -1,94 +1,130 @@
-const Preview = ({ state }) => (
-	<div className="preview">
-		{state.map(item => (
-			<Form item={item} key={item.id} />
-		))}
-	</div>
-);
+import { format, isThisMonth } from "date-fns";
 
-const Form = ({ item }) => {
-	switch (item.type) {
-		case "personal":
-			return <Personal item={item} />;
-		case "employment":
-			return <Employment item={item} />;
-		case "education":
-			return <Education item={item} />;
-		case "skills":
-			return <Skills item={item} />;
-	}
+const Preview = ({ state }) => {
+	const onConvertDate = value => {
+		const date = new Date(value);
+		return !(date instanceof Date && !isNaN(date))
+			? value
+			: isThisMonth(date)
+			? "Present"
+			: format(date, "MMM. yyyy");
+	};
+
+	const onCreateDescribes = list =>
+		list.map(describe => <li key={describe.id}>{describe.text}</li>);
+
+	return (
+		<div className="preview">
+			<Personal personal={state.personal} />
+			<Employment
+				employment={state.employment}
+				onConvertDate={onConvertDate}
+				onCreateDescribes={onCreateDescribes}
+			/>
+			<Education
+				education={state.education}
+				onConvertDate={onConvertDate}
+				onCreateDescribes={onCreateDescribes}
+			/>
+			<Skills skills={state.skills} />
+		</div>
+	);
 };
 
-const Personal = ({ item }) => (
-	<div className={item.type}>
+const Personal = ({ personal }) => (
+	<div className={personal.type}>
 		<h1>
-			{item.data.firstName} {item.data.lastName}
+			{personal.data.firstName} {personal.data.lastName}
 		</h1>
 		<ul>
-			<li>{item.data.email} </li>
+			<li>{personal.data.email} </li>
 			<span>-</span>
-			<li>{item.data.phone}</li>
+			<li>{personal.data.phone}</li>
 			<span>-</span>
 			<li>
-				{item.data.city}, {item.data.state}
+				{personal.data.city}, {personal.data.state}
 			</li>
 		</ul>
 	</div>
 );
-const Employment = ({ item }) => (
-	<div className={item.type}>
-		<p>WORK EXPERIENCE</p>
-		{item.data.map((employment, i) => (
-			<div key={employment.id ?? i}>
-				<p>
-					<span>{employment.employer}</span>
-					<span>
-						{employment.startDate} - {employment.endDate}
-					</span>
-				</p>
-				<p>
-					<span>{employment.jobTitle}</span>
-					<span>
-						{employment.city}, {employment.state}
-					</span>
-				</p>
-				<ul>
-					{employment.describes.map((describe, i) => (
-						<li key={describe.id ?? i}>{describe.text}</li>
-					))}
-				</ul>
-			</div>
-		))}
-	</div>
-);
-const Education = ({ item }) => (
-	<div className={item.type}>
-		<p>EDUCATION</p>
-		{item.data.map((education, i) => (
-			<div key={education.id ?? i}>
-				<p>
-					<span>{education.school}</span>
-					<span>Graduation {education.graduationDate}</span>
-				</p>
-				<p>
-					<span>{education.degreeMajors}</span>
-					<span>
-						{education.city}, {education.state}
-					</span>
-				</p>
-				<ul>
-					{education.describes.map((describe, i) => (
-						<li key={describe.id ?? i}>{describe.text}</li>
-					))}
-				</ul>
-			</div>
-		))}
-	</div>
-);
-const Skills = ({ item }) => (
-	<div className={item.type}>
+
+const Employment = ({ employment, onConvertDate, onCreateDescribes }) => {
+	const dataList =
+		employment.dataList.length === 0
+			? null
+			: employment.dataList.map(item => {
+					return (
+						<div key={item.id}>
+							<p>
+								<span>{item.employer}</span>
+								<span>
+									{onConvertDate(item.startDate)} -{" "}
+									{onConvertDate(item.endDate)}
+								</span>
+							</p>
+							<p>
+								<span>{item.jobTitle}</span>
+								<span>
+									{item.city}, {item.state}
+								</span>
+							</p>
+							<ul>
+								{item.describes.length === 0
+									? null
+									: onCreateDescribes(item.describes)}
+							</ul>
+						</div>
+					);
+			  });
+
+	return (
+		<div className={employment.type}>
+			<p>WORK EXPERIENCE</p>
+			{dataList}
+		</div>
+	);
+};
+
+const Education = ({ education, onConvertDate, onCreateDescribes }) => {
+	const dataList =
+		education.dataList.length === 0
+			? null
+			: education.dataList.map(item => {
+					return (
+						<div key={item.id}>
+							<p>
+								<span>{item.school}</span>
+								<span>
+									Graduation
+									{onConvertDate(item.graduationDate)}
+								</span>
+							</p>
+							<p>
+								<span>{item.degreeMajors}</span>
+								<span>
+									{item.city}, {item.state}
+								</span>
+							</p>
+							<ul>
+								{item.describes.length === 0
+									? null
+									: onCreateDescribes(item.describes)}
+							</ul>
+						</div>
+					);
+			  });
+	return (
+		<div className={education.type}>
+			<p>EDUCATION</p>
+			{dataList}
+		</div>
+	);
+};
+
+const Skills = ({ skills }) => (
+	<div className={skills.type}>
 		<p>SKILLS</p>
-		<p>{item.data}</p>
+		<p>{skills.data.skill}</p>
 	</div>
 );
 
