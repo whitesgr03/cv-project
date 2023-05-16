@@ -2,16 +2,16 @@
 	overflow-wrap: break-word;
 }
 
-.preview div:not(:last-child) {
+.preview > div:not(.skills) {
 	margin-bottom: 20px;
 }
 
-.preview div:not(:nth-of-type(1)) li {
+.preview > div:not(.personal) li {
 	margin: 5px 0;
 	margin-left: 20px;
 }
 
-.preview > div:nth-of-type(1) ul {
+.preview .personal ul {
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 10px;
@@ -25,28 +25,24 @@
 	font-weight: bolder;
 }
 
-.preview > div > p:nth-of-type(1) {
+.preview > div .title {
 	border-bottom: 1px solid var(--main-dark);
 }
 
-.preview .employment > div,
-.preview .education > div {
+.preview .wrap {
 	margin: 20px 0;
 }
 
-.preview .employment > div > p,
-.preview .education > div > p {
+.preview .wrap > p {
 	display: flex;
 	justify-content: space-between;
 }
 
-.preview .employment > div > p:nth-of-type(1),
-.preview .education > div > p:nth-of-type(1) {
+.preview .wrap > p:nth-of-type(1) {
 	font-weight: bolder;
 }
 
-.preview .employment > div > p:nth-of-type(2),
-.preview .education > div > p:nth-of-type(2) {
+.preview .wrap > p:nth-of-type(2) {
 	margin: 10px 0;
 	font-style: italic;
 }
