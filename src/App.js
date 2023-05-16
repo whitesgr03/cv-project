@@ -125,6 +125,23 @@ const App = () => {
 		});
 	};
 
+	const onAddNewForm = type => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				dataList: [
+					...state[type].dataList,
+					{
+						...state[type].data,
+						id:
+							state[type].dataList.length === 0
+								? 1
+								: state[type].dataList.at(-1).id + 1,
+					},
+				],
+			},
+		});
 	};
 
 	const removeDescribe = (type, id, describeId) => {
