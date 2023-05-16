@@ -101,36 +101,30 @@ const App = () => {
 		});
 	};
 
-	const addDescribe = (type, id) => {
-		setState(
-			state.map(item =>
-				item.type === type
-					? {
-							...item,
-							data: item.data.map(data =>
-								data.id === id
-									? {
-											...data,
-											describes: [
-												...data.describes,
-												{
-													id:
-														data.describes.length >
-														0
-															? data.describes.at(
-																	-1
-															  ).id + 1
-															: 1,
-													text: defaultDescribe[type],
-												},
-											],
-									  }
-									: data
-							),
-					  }
-					: item
-			)
-		);
+	const handleDescribeChange = (type, dataId, describeId, value) => {
+		setState({
+			...state,
+			[type]: {
+				...state[type],
+				dataList: state[type].dataList.map(data =>
+					data.id === dataId
+						? {
+								...data,
+								describes: data.describes.map(describe =>
+									describe.id === describeId
+										? {
+												...describe,
+												text: value,
+										  }
+										: describe
+								),
+						  }
+						: data
+				),
+			},
+		});
+	};
+
 	};
 
 	const removeDescribe = (type, id, describeId) => {
