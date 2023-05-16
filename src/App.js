@@ -3,9 +3,8 @@ import { useState } from "react";
 import Preview from "./components/preview";
 import Resume from "./components/resume";
 
-const initialData = [
-	{
-		id: 1,
+const initialData = {
+	personal: {
 		type: "personal",
 		data: {
 			firstName: "Your",
@@ -16,10 +15,20 @@ const initialData = [
 			state: "ST",
 		},
 	},
-	{
-		id: 2,
+	employment: {
 		type: "employment",
-		data: [
+		data: {
+			id: null,
+			jobTitle: "Job Title",
+			employer: "Company Name",
+			startDate: "Month Year",
+			endDate: "Month Year",
+			city: "City",
+			state: "ST",
+			describes: [{ id: 1, text: "Core responsibility" }],
+		},
+		dataDescribe: "Core responsibility",
+		dataList: [
 			{
 				id: 1,
 				jobTitle: "Job Title",
@@ -32,10 +41,19 @@ const initialData = [
 			},
 		],
 	},
-	{
-		id: 3,
+	education: {
 		type: "education",
-		data: [
+		data: {
+			id: 1,
+			school: "University Name",
+			degreeMajors: "Degree, Majors",
+			graduationDate: "Month, Year",
+			city: "City",
+			state: "ST",
+			describes: [{ id: 1, text: "Honors or fun stuff" }],
+		},
+		dataDescribe: "Honors or fun stuff",
+		dataList: [
 			{
 				id: 1,
 				school: "University Name",
@@ -47,12 +65,13 @@ const initialData = [
 			},
 		],
 	},
-	{
-		id: 4,
+	skills: {
 		type: "skills",
-		data: "Important skills or abilities required to fulfill the task role.",
+		data: {
+			skill: "Important skills or abilities required to fulfill the task role.",
+		},
 	},
-];
+};
 
 const defaultTemplate = {
 	employment: {
