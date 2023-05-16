@@ -1,21 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { flushSync } from "react-dom";
-
-import { format, isThisMonth } from "date-fns";
 
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline, mdiChevronDown } from "@mdi/js";
-
-const getValue = value => {
-	const date = new Date(value);
-	return !(date instanceof Date && !isNaN(date))
-		? value
-		: isThisMonth(date)
-		? "Present"
-		: format(date, "MMM. yyyy");
-};
-
-// 伸縮表單時 title 慢顯示
 
 const Resume = ({
 	state,
