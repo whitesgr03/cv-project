@@ -5,98 +5,117 @@ import { mdiTrashCanOutline, mdiChevronDown } from "@mdi/js";
 
 const Resume = ({
 	state,
-
-
-	
+	handleDataChange,
+	handleDataListChange,
+	handleDescribeChange,
+	onAddNewForm,
+	onRemoveForm,
+	onAddNewDescribe,
 	onRemoveDescribe,
 }) => {
 	return (
 		<div className="resume">
 			<Personal
 				personal={state.personal}
+				handleDataChange={handleDataChange}
 			/>
 			<Employment
 				employment={state.employment}
+				onAddNewForm={onAddNewForm}
+				onRemoveForm={onRemoveForm}
+				onAddNewDescribe={onAddNewDescribe}
+				onRemoveDescribe={onRemoveDescribe}
+				handleDataListChange={handleDataListChange}
+				handleDescribeChange={handleDescribeChange}
 			/>
 			<Education
 				education={state.education}
+				onAddNewForm={onAddNewForm}
+				onRemoveForm={onRemoveForm}
+				onAddNewDescribe={onAddNewDescribe}
+				onRemoveDescribe={onRemoveDescribe}
+				handleDataListChange={handleDataListChange}
+				handleDescribeChange={handleDescribeChange}
 			/>
-			<Skills
-				skills={state.skills}
-			/>
+			<Skills skills={state.skills} handleDataChange={handleDataChange} />
 		</div>
 	);
 };
 
-const Employment = ({
-	state,
-	handleEdit,
-	handleAddForm,
-	handleAddDescribe,
-	handleRemoveDescribe,
-	handleRemoveForm,
-}) => {
-	return (
-		<div className={state.type}>
-			<h3>Employment History</h3>
-			{state.data.map(employment => (
-				<EmploymentForm
-					state={state}
-					key={employment.id}
-					item={employment}
-					handleEdit={handleEdit}
-					handleAddForm={handleAddForm}
-					handleAddDescribe={handleAddDescribe}
-					handleRemoveDescribe={handleRemoveDescribe}
-					handleRemoveForm={handleRemoveForm}
+const Textarea = ({
+	index,
+	type,
+	dataId,
+	describeId,
+	onRemoveDescribe,
+	handleDescribeChange,
+}) => (
+	<div>
+		<div className="bar">
+			<p>{`Description #${index + 1}:`}</p>
+			<button type="button" className="trashCan">
+				<Icon
+					className="icon"
+					path={mdiTrashCanOutline}
+					onClick={() => {
+						onRemoveDescribe(type, dataId, describeId);
+					}}
 				/>
-			))}
-			<button type="button" onClick={() => handleAddForm(state.type)}>
-				+ Add {state.data.length > 1 && "one more"} {state.type}
 			</button>
 		</div>
-	);
-};
+		<label>
+			<textarea
+				type="text"
+				onChange={e =>
+					handleDescribeChange(
+						type,
+						dataId,
+						describeId,
+						e.target.value
+					)
+				}
+			></textarea>
+		</label>
+	</div>
+);
 
-const EmploymentForm = ({
-	state,
-	item,
-	handleEdit,
-	handleAddDescribe,
-	handleRemoveDescribe,
-	handleRemoveForm,
+const Wrap = ({
+	title,
+	type,
+	content,
+	id,
+	describes,
+	children,
+	onRemoveForm,
+	onAddNewDescribe,
+	onRemoveDescribe,
+	handleDescribeChange,
 }) => {
-	const [rotate, setRotate] = useState(false);
-	const [detailHeight, setDetailHeight] = useState(0);
+	const [wrapBlockHight, setWrapBlockHight] = useState(null);
+	const [displayForm, setDisplayForm] = useState(false);
 
 	const ref = useRef(null);
 
 	useEffect(() => {
-		setDetailHeight(ref.current.clientHeight);
-	}, []);
-
-	const onUpdateFormHeight = () => setDetailHeight(ref.current.clientHeight);
+		setWrapBlockHight(ref.current.clientHeight);
+	}, [describes.length]);
 
 	return (
-		<form
-			name={state.type}
-			key={item.id}
-			className={rotate ? "pointer" : ""}
-			onClick={() => rotate && setRotate(!rotate)}
+		<div
+			className={`wrap ${displayForm ? "pointer" : ""}`}
+			onClick={() => displayForm && setDisplayForm(!displayForm)}
 		>
 			<div className="bar">
-				<div>
-					<p className={rotate ? "show" : ""}>
-						{item.jobTitle} - {item.employer}
-					</p>
-				</div>
-				<div>
+				<p className={`"title" ${displayForm ? "show" : ""}`}>
+					{title} - {content}
+				</p>
+				<div className="buttonWrap">
 					<button
 						type="button"
 						className="trashCan"
-						hidden={rotate ? true : false}
+						hidden={displayForm ? true : false}
 						onClick={() => {
-							handleRemoveForm(state.type, item.id);
+							onRemoveForm(type, id);
 						}}
 					>
 						<Icon className="icon " path={mdiTrashCanOutline} />
@@ -105,341 +124,405 @@ const EmploymentForm = ({
 						<Icon
 							className="icon"
 							path={mdiChevronDown}
-							rotate={rotate ? 180 : 0}
-							onClick={() => setRotate(!rotate)}
+							rotate={displayForm ? 180 : 0}
+							onClick={() => setDisplayForm(!displayForm)}
 						/>
 					</button>
 				</div>
 			</div>
 			<div
-				className={`detailsWarp ${rotate ? "hiding" : ""}`}
+				className={`formWrap ${displayForm ? "hiding" : ""}`}
 				style={{
-					maxHeight: detailHeight,
+					maxHeight: wrapBlockHight !== null ? wrapBlockHight : "",
 				}}
 			>
-				<div className="details" ref={ref}>
-					{Object.keys(item).map((key, i) =>
-						typeof item[key] === "string" ? (
-							<TextInput
-								state={state}
-								item={key}
-								key={key}
-								id={item.id}
-								handleEdit={handleEdit}
-							/>
-						) : (
-							Array.isArray(item[key]) && (
-								<div key={i}>
-									{item[key].map((describe, i) => (
-										<div key={i}>
-											<div className="bar">
-												{`Description ${i + 1}:`}
-												<button
-													type="button"
-													className="trashCan"
-												>
-													<Icon
-														className="icon"
-														path={
-															mdiTrashCanOutline
-														}
-														onClick={e => {
-															e.stopPropagation();
-															flushSync(() => {
-																handleRemoveDescribe(
-																	state.type,
-																	item.id,
-																	describe.id
-																);
-															});
-															onUpdateFormHeight();
-														}}
-													/>
-												</button>
-											</div>
-
-											<Textarea
-												state={state}
-												id={item.id}
-												item={key}
-												describeId={describe.id}
-												index={i}
-												key={describe.id}
-												handleEdit={handleEdit}
-												handleRemoveDescribe={
-													handleRemoveDescribe
-												}
-												handleUpdateFormHeight={
-													onUpdateFormHeight
-												}
-											/>
-										</div>
-									))}
-
-									<button
-										type="button"
-										onClick={() => {
-											flushSync(() => {
-												handleAddDescribe(
-													state.type,
-													item.id
-												);
-											});
-											onUpdateFormHeight();
-										}}
-									>
-										+ Add responsibility
-									</button>
-								</div>
-							)
-						)
-					)}
-				</div>
+				<form name={type} ref={ref}>
+					{children}
+					<div className="describes">
+						{describes.map((describe, index) => {
+							return (
+								<Textarea
+									key={describe.id}
+									index={index}
+									type={type}
+									dataId={id}
+									describeId={describe.id}
+									onRemoveDescribe={onRemoveDescribe}
+									handleDescribeChange={handleDescribeChange}
+								/>
+							);
+						})}
+					</div>
+					<button
+						type="button"
+						onClick={() => {
+							onAddNewDescribe(type, id);
+						}}
+					>
+						+ Add new describe
+					</button>
+				</form>
 			</div>
-		</form>
+		</div>
 	);
 };
 
-const Education = ({
-	state,
-	handleEdit,
-	handleAddForm,
-	handleAddDescribe,
-	handleRemoveDescribe,
-	handleRemoveForm,
-}) => {
+const Personal = ({ personal, handleDataChange }) => {
 	return (
-		<div className={state.type}>
-			<h3>Education</h3>
-			{state.data.map(education => (
-				<EducationForm
-					state={state}
-					key={education.id}
-					item={education}
-					handleEdit={handleEdit}
-					handleAddForm={handleAddForm}
-					handleAddDescribe={handleAddDescribe}
-					handleRemoveDescribe={handleRemoveDescribe}
-					handleRemoveForm={handleRemoveForm}
-				/>
-			))}
-			<button type="button" onClick={() => handleAddForm(state.type)}>
-				+ Add {state.data.length > 1 && "one more"} {state.type}
+		<div className="personal">
+			<h3>Personal Details</h3>
+			<form name="personal">
+				<label>
+					FirstName
+					<input
+						type="text"
+						name="firstName"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					LastName
+					<input
+						type="text"
+						name="lastName"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					Email
+					<input
+						type="email"
+						name="email"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					Phone
+					<input
+						type="tel"
+						name="phone"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					City
+					<input
+						type="text"
+						name="city"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					State
+					<input
+						type="text"
+						name="state"
+						onChange={e =>
+							handleDataChange(
+								personal.type,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+			</form>
+		</div>
+	);
+};
+
+const Employment = ({
+	employment,
+	onAddNewForm,
+	onRemoveForm,
+	onAddNewDescribe,
+	onRemoveDescribe,
+	handleDataListChange,
+	handleDescribeChange,
+}) => {
+	const forms = employment.dataList.map(form => {
+		return (
+			<Wrap
+				type={employment.type}
+				title={form.jobTitle}
+				content={form.employer}
+				id={form.id}
+				key={form.id}
+				describes={form.describes}
+				onRemoveForm={onRemoveForm}
+				onAddNewDescribe={onAddNewDescribe}
+				onRemoveDescribe={onRemoveDescribe}
+				handleDescribeChange={handleDescribeChange}
+			>
+				<label>
+					JobTitle
+					<input
+						type="text"
+						name="jobTitle"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					Employer
+					<input
+						type="text"
+						name="employer"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					StartDate
+					<input
+						type="month"
+						name="startDate"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					EndDate
+					<input
+						type="month"
+						name="endDate"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					City
+					<input
+						type="text"
+						name="city"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+				<label>
+					State
+					<input
+						type="text"
+						name="state"
+						onChange={e =>
+							handleDataListChange(
+								employment.type,
+								form.id,
+								e.target.name,
+								e.target.value
+							)
+						}
+					/>
+				</label>
+			</Wrap>
+		);
+	});
+
+	return (
+		<div className="employment">
+			<h3>Employment History</h3>
+			{forms}
+			<button type="button" onClick={() => onAddNewForm(employment.type)}>
+				{`+ Add ${employment.type}${
+					employment.dataList.length > 1 ? " one more" : ""
+				}`}
 			</button>
 		</div>
 	);
 };
 
-const EducationForm = ({
-	state,
-	item,
-	handleEdit,
-	handleAddDescribe,
-	handleRemoveDescribe,
-	handleRemoveForm,
+const Education = ({
+	education,
+	onAddNewForm,
+	onRemoveForm,
+	onAddNewDescribe,
+	onRemoveDescribe,
+	handleDataListChange,
+	handleDescribeChange,
 }) => {
-	const [rotate, setRotate] = useState(false);
-
-	const [detailHeight, setDetailHeight] = useState(0);
-
-	const ref = useRef(null);
-
-	useEffect(() => {
-		setDetailHeight(ref.current.clientHeight);
-	}, []);
-
-	const onUpdateFormHeight = () => setDetailHeight(ref.current.clientHeight);
-
-	return (
-		<form name={state.type} key={item.id}>
-			<div className="bar">
-				<div>
-					<p className={rotate ? "show" : ""}>
-						{item.school} - {item.degreeMajors}
-					</p>
-				</div>
-				<div className="icons">
-					<button
-						type="button"
-						className="trashCan"
-						hidden={rotate ? true : false}
-						onClick={() => {
-							handleRemoveForm(state.type, item.id);
-						}}
-					>
-						<Icon className="icon" path={mdiTrashCanOutline} />
-					</button>
-					<button type="button">
-						<Icon
-							className="icon"
-							path={mdiChevronDown}
-							rotate={rotate ? 180 : 0}
-							onClick={() => setRotate(!rotate)}
-						/>
-					</button>
-				</div>
-			</div>
-			<div
-				className={`detailsWarp ${rotate ? "hiding" : ""}`}
-				style={{
-					maxHeight: detailHeight,
-				}}
-			>
-				<div className={`details ${rotate ? "hiding" : ""}`} ref={ref}>
-					{Object.keys(item).map((key, i) =>
-						typeof item[key] === "string" ? (
-							<TextInput
-								state={state}
-								item={key}
-								key={key}
-								id={item.id}
-								handleEdit={handleEdit}
-							/>
-						) : (
-							Array.isArray(item[key]) && (
-								<div key={i}>
-									{item[key].map((describe, i) => (
-										<div key={describe.id}>
-											<div className="bar">
-												{`Description ${i + 1}:`}
-												<button
-													type="button"
-													className="trashCan"
-												>
-													<Icon
-														className="icon"
-														path={
-															mdiTrashCanOutline
-														}
-														onClick={e => {
-															e.stopPropagation();
-															flushSync(() => {
-																handleRemoveDescribe(
-																	state.type,
-																	item.id,
-																	describe.id
-																);
-															});
-															onUpdateFormHeight();
-														}}
-													/>
-												</button>
-											</div>
-
-											<Textarea
-												state={state}
-												id={item.id}
-												item={key}
-												describeId={describe.id}
-												index={i}
-												key={describe.id}
-												handleEdit={handleEdit}
-												handleRemoveDescribe={
-													handleRemoveDescribe
-												}
-											/>
-										</div>
-									))}
-									<button
-										type="button"
-										onClick={() => {
-											flushSync(() => {
-												handleAddDescribe(
-													state.type,
-													item.id
-												);
-											});
-											onUpdateFormHeight();
-										}}
-									>
-										+ Add responsibility
-									</button>
-								</div>
-							)
+	const forms = education.dataList.map(form => (
+		<Wrap
+			type={education.type}
+			title={form.school}
+			content={form.degreeMajors}
+			key={form.id}
+			id={form.id}
+			describes={form.describes}
+			onRemoveForm={onRemoveForm}
+			onAddNewDescribe={onAddNewDescribe}
+			onRemoveDescribe={onRemoveDescribe}
+			handleDataListChange={handleDataListChange}
+			handleDescribeChange={handleDescribeChange}
+		>
+			<label>
+				School
+				<input
+					type="text"
+					name="school"
+					onChange={e =>
+						handleDataListChange(
+							education.type,
+							form.id,
+							e.target.name,
+							e.target.value
 						)
-					)}
-				</div>
-			</div>
-		</form>
+					}
+				/>
+			</label>
+			<label>
+				DegreeMajors
+				<input
+					type="text"
+					name="degreeMajors"
+					onChange={e =>
+						handleDataListChange(
+							education.type,
+							form.id,
+							e.target.name,
+							e.target.value
+						)
+					}
+				/>
+			</label>
+			<label>
+				GraduationDate
+				<input
+					type="month"
+					name="graduationDate"
+					onChange={e =>
+						handleDataListChange(
+							education.type,
+							form.id,
+							e.target.name,
+							e.target.value
+						)
+					}
+				/>
+			</label>
+			<label>
+				City
+				<input
+					type="text"
+					name="city"
+					onChange={e =>
+						handleDataListChange(
+							education.type,
+							form.id,
+							e.target.name,
+							e.target.value
+						)
+					}
+				/>
+			</label>
+			<label>
+				State
+				<input
+					type="text"
+					name="state"
+					onChange={e =>
+						handleDataListChange(
+							education.type,
+							form.id,
+							e.target.name,
+							e.target.value
+						)
+					}
+				/>
+			</label>
+		</Wrap>
+	));
+	return (
+		<div className="education">
+			<h3>Education</h3>
+			{forms}
+			<button type="button" onClick={() => onAddNewForm(education.type)}>
+				{`+ Add education${
+					education.dataList.length > 1 ? " one more" : ""
+				}`}
+			</button>
+		</div>
 	);
 };
 
-const Skills = ({ state, handleEdit }) => (
-	<div className={state.type}>
+const Skills = ({ skills, handleDataChange }) => (
+	<div className="Skills">
 		<h3>Skills</h3>
-		<form name={state.type}>
-			<Textarea state={state} handleEdit={handleEdit} />
+		<form name="Skills">
+			<label>
+				<textarea
+					type="text"
+					name="skill"
+					onChange={e =>
+						handleDataChange(
+							skills.type,
+							e.target.name,
+							e.target.value
+						)
+					}
+				></textarea>
+			</label>
 		</form>
 	</div>
 );
-
-const TextInput = ({ state, item, handleEdit, id }) => {
-	return (
-		<label>
-			{item
-				.replace(/([A-Z])/g, " $1")
-				.replace(/^./, str => str.toUpperCase())}
-			:
-			<input
-				type={[item.slice(-4)][0] === "Date" ? "month" : "text"}
-				name={item}
-				onChange={e => {
-					handleEdit({
-						type: state.type,
-						data: Array.isArray(state.data)
-							? state.data.map(i =>
-									i.id === id
-										? {
-												...i,
-												[item]: getValue(
-													e.target.value
-												),
-										  }
-										: i
-							  )
-							: {
-									...state.data,
-									[item]: e.target.value,
-							  },
-					});
-				}}
-			/>
-		</label>
-	);
-};
-
-const Textarea = ({ state, item, describeId, handleEdit, id }) => {
-	return (
-		<label>
-			<textarea
-				type="text"
-				name={item}
-				onChange={e =>
-					handleEdit({
-						type: state.type,
-						data: Array.isArray(state.data)
-							? state.data.map(i =>
-									i.id === id
-										? {
-												...i,
-												[item]: i[item].map(x =>
-													x.id === describeId
-														? {
-																...x,
-																text: e.target
-																	.value,
-														  }
-														: x
-												),
-										  }
-										: i
-							  )
-							: e.target.value,
-					})
-				}
-			></textarea>
-		</label>
-	);
-};
 
 export default Resume;
