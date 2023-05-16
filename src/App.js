@@ -88,7 +88,7 @@ const App = () => {
 			},
 		});
 	};
-	
+
 	const handleDataListChange = (type, id, name, value) => {
 		setState({
 			...state,
