@@ -203,11 +203,13 @@ const App = () => {
 		<div>
 			<Resume
 				state={state}
-				onEdit={editInput}
-				onAddForm={addForm}
-				onAddDescribe={addDescribe}
-				onRemoveDescribe={removeDescribe}
-				onRemoveForm={removeForm}
+				handleDataChange={handleDataChange}
+				handleDataListChange={handleDataListChange}
+				handleDescribeChange={handleDescribeChange}
+				onAddNewForm={onAddNewForm}
+				onRemoveForm={onRemoveForm}
+				onAddNewDescribe={onAddNewDescribe}
+				onRemoveDescribe={onRemoveDescribe}
 			/>
 			<Preview state={state} />
 		</div>
