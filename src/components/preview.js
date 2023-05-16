@@ -54,7 +54,7 @@ const Employment = ({ employment, onConvertDate, onCreateDescribes }) => {
 			? null
 			: employment.dataList.map(item => {
 					return (
-						<div key={item.id}>
+						<div key={item.id} className="wrap">
 							<p>
 								<span>{item.employer}</span>
 								<span>
@@ -79,7 +79,7 @@ const Employment = ({ employment, onConvertDate, onCreateDescribes }) => {
 
 	return (
 		<div className={employment.type}>
-			<p>WORK EXPERIENCE</p>
+			<p className="title">WORK EXPERIENCE</p>
 			{dataList}
 		</div>
 	);
@@ -91,7 +91,7 @@ const Education = ({ education, onConvertDate, onCreateDescribes }) => {
 			? null
 			: education.dataList.map(item => {
 					return (
-						<div key={item.id}>
+						<div key={item.id} className="wrap">
 							<p>
 								<span>{item.school}</span>
 								<span>
@@ -115,7 +115,7 @@ const Education = ({ education, onConvertDate, onCreateDescribes }) => {
 			  });
 	return (
 		<div className={education.type}>
-			<p>EDUCATION</p>
+			<p className="title">EDUCATION</p>
 			{dataList}
 		</div>
 	);
@@ -123,7 +123,7 @@ const Education = ({ education, onConvertDate, onCreateDescribes }) => {
 
 const Skills = ({ skills }) => (
 	<div className={skills.type}>
-		<p>SKILLS</p>
+		<p className="title">SKILLS</p>
 		<p>{skills.data.skill}</p>
 	</div>
 );
