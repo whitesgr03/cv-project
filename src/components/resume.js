@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline, mdiChevronDown } from "@mdi/js";
@@ -96,7 +96,7 @@ const Wrap = ({
 
 	const ref = useRef(null);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setWrapBlockHight(ref.current.clientHeight);
 	}, [describes.length]);
 
