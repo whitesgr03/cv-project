@@ -1,7 +1,7 @@
 import { format, isThisMonth } from "date-fns";
 
 const Preview = ({ state }) => {
-	const onConvertDate = value => {
+	const handleConvertDate = value => {
 		const date = new Date(value);
 		return !(date instanceof Date && !isNaN(date))
 			? value
@@ -10,7 +10,7 @@ const Preview = ({ state }) => {
 			: format(date, "MMM. yyyy");
 	};
 
-	const onCreateDescribes = list =>
+	const handleCreateDescribes = list =>
 		list.map(describe => <li key={describe.id}>{describe.text}</li>);
 
 	return (
@@ -18,13 +18,13 @@ const Preview = ({ state }) => {
 			<Personal personal={state.personal} />
 			<Employment
 				employment={state.employment}
-				onConvertDate={onConvertDate}
-				onCreateDescribes={onCreateDescribes}
+				onConvertDate={handleConvertDate}
+				onCreateDescribes={handleCreateDescribes}
 			/>
 			<Education
 				education={state.education}
-				onConvertDate={onConvertDate}
-				onCreateDescribes={onCreateDescribes}
+				onConvertDate={handleConvertDate}
+				onCreateDescribes={handleCreateDescribes}
 			/>
 			<Skills skills={state.skills} />
 		</div>

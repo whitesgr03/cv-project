@@ -125,7 +125,7 @@ const App = () => {
 		});
 	};
 
-	const onAddNewForm = type => {
+	const handleAddForm = type => {
 		setState({
 			...state,
 			[type]: {
@@ -144,7 +144,7 @@ const App = () => {
 		});
 	};
 
-	const onRemoveForm = (type, id) => {
+	const handleRemoveForm = (type, id) => {
 		setState({
 			...state,
 			[type]: {
@@ -154,7 +154,7 @@ const App = () => {
 		});
 	};
 
-	const onAddNewDescribe = (type, id) => {
+	const handleAddDescribe = (type, id) => {
 		setState({
 			...state,
 			[type]: {
@@ -180,7 +180,7 @@ const App = () => {
 		});
 	};
 
-	const onRemoveDescribe = (type, dataId, describeId) => {
+	const handleRemoveDescribe = (type, dataId, describeId) => {
 		setState({
 			...state,
 			[type]: {
@@ -203,13 +203,13 @@ const App = () => {
 		<div>
 			<Resume
 				state={state}
-				handleDataChange={handleDataChange}
-				handleDataListChange={handleDataListChange}
-				handleDescribeChange={handleDescribeChange}
-				onAddNewForm={onAddNewForm}
-				onRemoveForm={onRemoveForm}
-				onAddNewDescribe={onAddNewDescribe}
-				onRemoveDescribe={onRemoveDescribe}
+				onDataChange={handleDataChange}
+				onDataListChange={handleDataListChange}
+				onDescribeChange={handleDescribeChange}
+				onAddForm={handleAddForm}
+				onRemoveForm={handleRemoveForm}
+				onAddDescribe={handleAddDescribe}
+				onRemoveDescribe={handleRemoveDescribe}
 			/>
 			<Preview state={state} />
 		</div>

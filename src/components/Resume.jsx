@@ -5,39 +5,36 @@ import { mdiTrashCanOutline, mdiChevronDown } from "@mdi/js";
 
 const Resume = ({
 	state,
-	handleDataChange,
-	handleDataListChange,
-	handleDescribeChange,
-	onAddNewForm,
+	onDataChange,
+	onDataListChange,
+	onDescribeChange,
+	onAddForm,
 	onRemoveForm,
-	onAddNewDescribe,
+	onAddDescribe,
 	onRemoveDescribe,
 }) => {
 	return (
 		<div className="resume">
-			<Personal
-				personal={state.personal}
-				handleDataChange={handleDataChange}
-			/>
+			<Personal personal={state.personal} onDataChange={onDataChange} />
 			<Employment
 				employment={state.employment}
-				onAddNewForm={onAddNewForm}
+				onAddForm={onAddForm}
 				onRemoveForm={onRemoveForm}
-				onAddNewDescribe={onAddNewDescribe}
+				onAddDescribe={onAddDescribe}
 				onRemoveDescribe={onRemoveDescribe}
-				handleDataListChange={handleDataListChange}
-				handleDescribeChange={handleDescribeChange}
+				onDataListChange={onDataListChange}
+				onDescribeChange={onDescribeChange}
 			/>
 			<Education
 				education={state.education}
-				onAddNewForm={onAddNewForm}
+				onAddForm={onAddForm}
 				onRemoveForm={onRemoveForm}
-				onAddNewDescribe={onAddNewDescribe}
+				onAddDescribe={onAddDescribe}
 				onRemoveDescribe={onRemoveDescribe}
-				handleDataListChange={handleDataListChange}
-				handleDescribeChange={handleDescribeChange}
+				onDataListChange={onDataListChange}
+				onDescribeChange={onDescribeChange}
 			/>
-			<Skills skills={state.skills} handleDataChange={handleDataChange} />
+			<Skills skills={state.skills} onDataChange={onDataChange} />
 		</div>
 	);
 };
@@ -48,7 +45,7 @@ const Textarea = ({
 	dataId,
 	describeId,
 	onRemoveDescribe,
-	handleDescribeChange,
+	onDescribeChange,
 }) => (
 	<div>
 		<div className="bar">
@@ -67,12 +64,7 @@ const Textarea = ({
 			<textarea
 				type="text"
 				onChange={e =>
-					handleDescribeChange(
-						type,
-						dataId,
-						describeId,
-						e.target.value
-					)
+					onDescribeChange(type, dataId, describeId, e.target.value)
 				}
 			></textarea>
 		</label>
@@ -87,9 +79,9 @@ const Wrap = ({
 	describes,
 	children,
 	onRemoveForm,
-	onAddNewDescribe,
+	onAddDescribe,
 	onRemoveDescribe,
-	handleDescribeChange,
+	onDescribeChange,
 }) => {
 	const [wrapBlockHight, setWrapBlockHight] = useState(null);
 	const [displayForm, setDisplayForm] = useState(false);
@@ -148,7 +140,7 @@ const Wrap = ({
 									dataId={id}
 									describeId={describe.id}
 									onRemoveDescribe={onRemoveDescribe}
-									handleDescribeChange={handleDescribeChange}
+									onDescribeChange={onDescribeChange}
 								/>
 							);
 						})}
@@ -156,7 +148,7 @@ const Wrap = ({
 					<button
 						type="button"
 						onClick={() => {
-							onAddNewDescribe(type, id);
+							onAddDescribe(type, id);
 						}}
 					>
 						+ Add new describe
@@ -167,7 +159,7 @@ const Wrap = ({
 	);
 };
 
-const Personal = ({ personal, handleDataChange }) => {
+const Personal = ({ personal, onDataChange }) => {
 	return (
 		<div className="personal">
 			<h3>Personal Details</h3>
@@ -178,7 +170,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="text"
 						name="firstName"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -192,7 +184,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="text"
 						name="lastName"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -206,7 +198,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="email"
 						name="email"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -220,7 +212,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="tel"
 						name="phone"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -234,7 +226,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="text"
 						name="city"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -248,7 +240,7 @@ const Personal = ({ personal, handleDataChange }) => {
 						type="text"
 						name="state"
 						onChange={e =>
-							handleDataChange(
+							onDataChange(
 								personal.type,
 								e.target.name,
 								e.target.value
@@ -263,12 +255,12 @@ const Personal = ({ personal, handleDataChange }) => {
 
 const Employment = ({
 	employment,
-	onAddNewForm,
+	onAddForm,
 	onRemoveForm,
-	onAddNewDescribe,
+	onAddDescribe,
 	onRemoveDescribe,
-	handleDataListChange,
-	handleDescribeChange,
+	onDataListChange,
+	onDescribeChange,
 }) => {
 	const forms = employment.dataList.map(form => {
 		return (
@@ -280,9 +272,10 @@ const Employment = ({
 				key={form.id}
 				describes={form.describes}
 				onRemoveForm={onRemoveForm}
-				onAddNewDescribe={onAddNewDescribe}
+				onAddDescribe={onAddDescribe}
 				onRemoveDescribe={onRemoveDescribe}
-				handleDescribeChange={handleDescribeChange}
+				onDataListChange={onDataListChange}
+				onDescribeChange={onDescribeChange}
 			>
 				<label>
 					JobTitle
@@ -290,7 +283,7 @@ const Employment = ({
 						type="text"
 						name="jobTitle"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -305,7 +298,7 @@ const Employment = ({
 						type="text"
 						name="employer"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -320,7 +313,7 @@ const Employment = ({
 						type="month"
 						name="startDate"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -335,7 +328,7 @@ const Employment = ({
 						type="month"
 						name="endDate"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -350,7 +343,7 @@ const Employment = ({
 						type="text"
 						name="city"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -365,7 +358,7 @@ const Employment = ({
 						type="text"
 						name="state"
 						onChange={e =>
-							handleDataListChange(
+							onDataListChange(
 								employment.type,
 								form.id,
 								e.target.name,
@@ -382,7 +375,7 @@ const Employment = ({
 		<div className="employment">
 			<h3>Employment History</h3>
 			{forms}
-			<button type="button" onClick={() => onAddNewForm(employment.type)}>
+			<button type="button" onClick={() => onAddForm(employment.type)}>
 				{`+ Add ${employment.type}${
 					employment.dataList.length > 1 ? " one more" : ""
 				}`}
@@ -393,12 +386,12 @@ const Employment = ({
 
 const Education = ({
 	education,
-	onAddNewForm,
+	onAddForm,
 	onRemoveForm,
-	onAddNewDescribe,
+	onAddDescribe,
 	onRemoveDescribe,
-	handleDataListChange,
-	handleDescribeChange,
+	onDataListChange,
+	onDescribeChange,
 }) => {
 	const forms = education.dataList.map(form => (
 		<Wrap
@@ -409,10 +402,10 @@ const Education = ({
 			id={form.id}
 			describes={form.describes}
 			onRemoveForm={onRemoveForm}
-			onAddNewDescribe={onAddNewDescribe}
+			onAddDescribe={onAddDescribe}
 			onRemoveDescribe={onRemoveDescribe}
-			handleDataListChange={handleDataListChange}
-			handleDescribeChange={handleDescribeChange}
+			onDataListChange={onDataListChange}
+			onDescribeChange={onDescribeChange}
 		>
 			<label>
 				School
@@ -420,7 +413,7 @@ const Education = ({
 					type="text"
 					name="school"
 					onChange={e =>
-						handleDataListChange(
+						onDataListChange(
 							education.type,
 							form.id,
 							e.target.name,
@@ -435,7 +428,7 @@ const Education = ({
 					type="text"
 					name="degreeMajors"
 					onChange={e =>
-						handleDataListChange(
+						onDataListChange(
 							education.type,
 							form.id,
 							e.target.name,
@@ -450,7 +443,7 @@ const Education = ({
 					type="month"
 					name="graduationDate"
 					onChange={e =>
-						handleDataListChange(
+						onDataListChange(
 							education.type,
 							form.id,
 							e.target.name,
@@ -465,7 +458,7 @@ const Education = ({
 					type="text"
 					name="city"
 					onChange={e =>
-						handleDataListChange(
+						onDataListChange(
 							education.type,
 							form.id,
 							e.target.name,
@@ -480,7 +473,7 @@ const Education = ({
 					type="text"
 					name="state"
 					onChange={e =>
-						handleDataListChange(
+						onDataListChange(
 							education.type,
 							form.id,
 							e.target.name,
@@ -495,7 +488,7 @@ const Education = ({
 		<div className="education">
 			<h3>Education</h3>
 			{forms}
-			<button type="button" onClick={() => onAddNewForm(education.type)}>
+			<button type="button" onClick={() => onAddForm(education.type)}>
 				{`+ Add education${
 					education.dataList.length > 1 ? " one more" : ""
 				}`}
@@ -504,7 +497,7 @@ const Education = ({
 	);
 };
 
-const Skills = ({ skills, handleDataChange }) => (
+const Skills = ({ skills, onDataChange }) => (
 	<div className="Skills">
 		<h3>Skills</h3>
 		<form name="Skills">
@@ -513,11 +506,7 @@ const Skills = ({ skills, handleDataChange }) => (
 					type="text"
 					name="skill"
 					onChange={e =>
-						handleDataChange(
-							skills.type,
-							e.target.name,
-							e.target.value
-						)
+						onDataChange(skills.type, e.target.name, e.target.value)
 					}
 				></textarea>
 			</label>
