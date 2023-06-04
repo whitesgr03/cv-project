@@ -95,8 +95,8 @@ const Education = ({ education, onConvertDate, onCreateDescribes }) => {
 							<p>
 								<span>{item.school}</span>
 								<span>
-									Graduation
-									{onConvertDate(item.graduationDate)}
+									 
+									{`Graduation ${onConvertDate(item.graduationDate)}`}
 								</span>
 							</p>
 							<p>
